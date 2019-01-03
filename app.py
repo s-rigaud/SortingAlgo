@@ -11,11 +11,15 @@ class App:
 
 		self.numList = initializeList()
 		self.arrayStepByStep = []
+
+		self.animationSpeed = 5
 		
 		self.barArray = []
+
 		#Not yet implemented
 		self.dotArray = []
 		self.resetSort = False
+
 		#Principal bar of menu
 		self.menubar = None
 		self.sorted = False
@@ -65,16 +69,20 @@ class App:
 			self.startTime = time.time()
 			if(sort=='bubble'):
 				self.arrayStepByStep = bubbleSort(self.numList)
+				self.animationSpeed = 1
 			elif(sort=='o bubble'):
 				self.arrayStepByStep = optimisedBubbleSort(self.numList)
+				self.animationSpeed = 1
 			elif(sort=='selection'):
 				self.arrayStepByStep = selectionSort(self.numList)
 			elif(sort=='insertion'):
 				self.arrayStepByStep = insertionSort(self.numList)
 			elif(sort=='cocktail'):
 				self.arrayStepByStep = cocktailSort(self.numList)
+				self.animationSpeed = 1
 			elif(sort=='bogo'):
 				self.arrayStepByStep = bogoSort(self.numList)
+				self.animationSpeed = 1
 			elif(sort=='count'):
 				self.arrayStepByStep = countingSort(self.numList)
 			elif(sort=='bucket'):
@@ -125,8 +133,9 @@ class App:
 		self.actualTime = time.time()
 		self.timeToSort = round(self.actualTime - self.startTime,2)
 		self.menubar.entryconfig(3, label="Time to sort "+str(self.timeToSort)+" s")
+		time.sleep(0.01)
 		if(len(self.arrayStepByStep)>0 and not(self.resetSort)):
-			self.frame.after(12,self.dynamicDisplay)
+			self.frame.after(self.animationSpeed,self.dynamicDisplay)
 		else:
 			self.resetSort = False
 			self.menubar.entryconfig(2,state='normal')
@@ -171,6 +180,6 @@ class App:
 		if secondWellSorted:
 			self.canvas.itemconfig(self.barArray[indexSN],fill="blue")
 
-
-myApp = App()
-myApp.start()
+if __name__ == '__main__':
+	myApp = App()
+	myApp.start()
