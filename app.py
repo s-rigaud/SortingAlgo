@@ -6,180 +6,181 @@ import time
 
 class App:
 	def __init__(self):
-		self.frame = Tk()
-		self.canvas = Canvas(self.frame, width=500, height=500, background='white')
+		self.root = Tk()
+		self.canvas = Canvas(self.root, width=500, height=500, background='white')
 
-		self.numList = initializeList()
-		self.arrayStepByStep = []
+		self.number_list = initialize_list()
+		self.list_step_by_step = []
 
-		self.animationSpeed = 5
+		self.animation_speed = 5
 		
-		self.barArray = []
-
+		self.bar_list = []
 		#Not yet implemented
-		self.dotArray = []
-		self.resetSort = False
+		self.dot_list = []
 
-		#Principal bar of menu
+		self.reset_sort = False
+
+		#Principal barMenu
 		self.menubar = None
 		self.sorted = False
 
 		#Timer
-		self.timeToSort= 0.0
-		self.startTime = 0
-		self.actualTime = 0
+		self.time_to_sort= 0.0
+		self.start_time = 0
+		self.actual_time = 0
 
-	#Initialisation of the UI 
 	def start(self):
+		"""Method call at the beginning of the app to initialize the UI"""
 		self.canvas.pack()
-
 		self.display()
+		self.menubar = Menu(self.root)
+		sort_menu = Menu(self.menubar , tearoff=0)
+		sort_menu.add_command(label = 'Bubble Sort' , command= lambda: self.sort('bubble'))
+		sort_menu.add_command(label = "'Better' Bubble Sort" , command= lambda: self.sort('o bubble'))
+		sort_menu.add_command(label = 'Selection Sort' , command= lambda: self.sort('selection'))
+		sort_menu.add_command(label = 'Insertion Sort' , command= lambda: self.sort('insertion'))
+		sort_menu.add_command(label = 'Cocktail Sort', command= lambda: self.sort('cocktail'))
+		sort_menu.add_command(label = 'Bogo Sort (Takes too long)', command= lambda: self.sort('bogo'))
+		sort_menu.add_command(label = 'Counting Sort', command= lambda: self.sort('count'))
+		sort_menu.add_command(label = 'Bucket Sort', command= lambda: self.sort('bucket'))
 
-		self.menubar = Menu(self.frame)
-		sortMenu = Menu(self.menubar,tearoff=0)
-		sortMenu.add_command(label = 'Bubble Sort',command= lambda: self.sort('bubble'))
-		sortMenu.add_command(label = "'Better' Bubble Sort",command= lambda: self.sort('o bubble'))
-		sortMenu.add_command(label = 'Selection Sort',command= lambda: self.sort('selection'))
-		sortMenu.add_command(label = 'Insertion Sort',command= lambda: self.sort('insertion'))
-		sortMenu.add_command(label = 'Cocktail Sort',command= lambda: self.sort('cocktail'))
-		sortMenu.add_command(label = 'Bogo Sort (Takes too long)',command= lambda: self.sort('bogo'))
-		sortMenu.add_command(label = 'Counting Sort',command= lambda: self.sort('count'))
-		sortMenu.add_command(label = 'Bucket Sort',command= lambda: self.sort('bucket'))
 
-
-		self.menubar.add_cascade(label = "Choose Sort", menu = sortMenu)
+		self.menubar.add_cascade(label = "Choose Sort",  menu = sort_menu)
 		self.menubar.add_cascade(label = "Random", command=self.random)
-		self.menubar.add_cascade(label = "Time to sort "+str(self.timeToSort)+" s")
-		self.menubar.add_cascade(label = "Exit", command=self.frame.quit)
+		self.menubar.add_cascade(label = "Time to sort " + str(self.time_to_sort)+" s")
+		self.menubar.add_cascade(label = "Exit", command=self.root.quit)
 		
-		self.frame.overrideredirect(0)
+		self.root.overrideredirect(0)
 
-		self.frame.title('Sorting Algorithm Tool')
+		self.root.title('Sorting Algorithm Tool')
 		img = PhotoImage(file='ico.png')
-		self.frame.tk.call('wm', 'iconphoto',  self.frame._w, img)
+		self.root.tk.call('wm', 'iconphoto', self.root._w ,  img)
 
-		self.frame.resizable(width=False, height=False)
-		self.frame.config(menu = self.menubar)
-		self.frame.mainloop()
+		self.root.resizable(width=False, height=False)
+		self.root.config(menu = self.menubar)
+		self.root.mainloop()
 
-	#Call the funtion to sort the array if it not sorted yet
-	def sort(self,sort):
-		self.resetSort = False
+	def sort(self ,  sort:str):
+		"""Method use to sort the array with the corresponding sort if it is not sorted yet ,  and call the animation method after"""
+		self.reset_sort = False
 		if not self.sorted:
-			self.startTime = time.time()
+			self.start_time = time.time()
 			if(sort=='bubble'):
-				self.arrayStepByStep = bubbleSort(self.numList)
-				self.animationSpeed = 1
+				self.list_step_by_step = bubble_sort(self.number_list)
+				self.animation_speed = 1
 			elif(sort=='o bubble'):
-				self.arrayStepByStep = optimisedBubbleSort(self.numList)
-				self.animationSpeed = 1
+				self.list_step_by_step = optimised_bubble_sort(self.number_list)
+				self.animation_speed = 1
 			elif(sort=='selection'):
-				self.arrayStepByStep = selectionSort(self.numList)
+				self.list_step_by_step = selection_sort(self.number_list)
+				self.animation_speed = 5
 			elif(sort=='insertion'):
-				self.arrayStepByStep = insertionSort(self.numList)
+				self.list_step_by_step = insertion_sort(self.number_list)
+				self.animation_speed = 5
 			elif(sort=='cocktail'):
-				self.arrayStepByStep = cocktailSort(self.numList)
-				self.animationSpeed = 1
+				self.list_step_by_step = cocktail_sort(self.number_list)
+				self.animation_speed = 1
 			elif(sort=='bogo'):
-				self.arrayStepByStep = bogoSort(self.numList)
-				self.animationSpeed = 1
+				self.list_step_by_step = bogo_sort(self.number_list)
+				self.animation_speed = 1
 			elif(sort=='count'):
-				self.arrayStepByStep = countingSort(self.numList)
+				self.list_step_by_step = counting_sort(self.number_list)
+				self.animation_speed = 5
 			elif(sort=='bucket'):
-				self.arrayStepByStep = bucketSort(self.numList)
+				self.list_step_by_step = bucket_sort(self.number_list)
+				self.animation_speed = 5
 		
-			self.dynamicDisplay()
+			self.dynamic_display()
 
-			self.menubar.entryconfig(2,state='disable')
+			self.menubar.entryconfig(2 , state='disable')
 			self.sorted = True 
 		else:
 			print('Already sorted')
 
-	#Define an other array to work on
 	def random(self):
-		self.resetSort = True
+		"""Method use to sort the list with one of the sorting algorithm"""
+		self.reset_sort = True
 		self.sorted = False
-		self.timeToSort = 0
-		self.menubar.entryconfig(3, label="Time to sort "+str(self.timeToSort)+" s")
-		self.menubar.entryconfig(2,state='normal')
-		self.numList = initializeList()
+		self.time_to_sort = 0
+		self.menubar.entryconfig(3 ,  label="Time to sort "+str(self.time_to_sort)+" s")
+		self.menubar.entryconfig(2 , state='normal')
+		self.number_list = initialize_list()
 		self.display()
 
 
-
-	#Initial print of the array
 	def display(self):
+		"""Method call to display the unsorted array"""
 		self.canvas.delete("all")
-		self.canvas.create_line(100,100,100,400,fill='red',width=3) 
-		self.canvas.create_line(100,400,400,400,fill='red',width=3) 
-		maxNumber = max(self.numList)
-		self.barArray = []
-		for _ in range(len(self.numList)):
-			self.barArray.append(self.canvas.create_line(105+_*5,399,105+_*5,(400-300*(self.numList[_]/maxNumber)),fill='green',width=2))
-			# self.dotArray.append(self.canvas.create_line(105+_*5,(400-300*(self.numList[_]/maxNumber))-2,105+_*5,(400-300*(self.numList[_]/maxNumber)),fill='red',width=2))
+		self.canvas.create_line(100, 100, 100, 400, fill='red', width=3) 
+		self.canvas.create_line(100, 400, 400, 400, fill='red', width=3) 
+		maxNumber = max(self.number_list)
+		self.bar_list = []
+		for _ in range(len(self.number_list)):
+			self.bar_list.append(self.canvas.create_line(105+_*5 , 399, 105+_*5, (400-300*(self.number_list[_]/maxNumber)), fill='green', width=2))
+			# self.dot_list.append(self.canvas.create_line(105+_*5 , (400-300*(self.number_list[_]/maxNumber))-2 , 105+_*5 , (400-300*(self.number_list[_]/maxNumber)) , fill='red' , width=2))
 
-	def dynamicDisplay(self):
-
+	def dynamic_display(self):
+		"""Method use to display the animation"""
 		#Index of First and Second Number which will be swaped
-		indexFN = int(self.arrayStepByStep[0].split("→")[0])
-		indexSN = int(self.arrayStepByStep[0].split("→")[1])
+		indexFN = int(self.list_step_by_step[0].split("→")[0])
+		indexSN = int(self.list_step_by_step[0].split("→")[1])
 
-		self.swapBar(indexFN,indexSN)
+		self.swap_bars(indexFN, indexSN)
 		
-		self.arrayStepByStep.pop(0)
+		self.list_step_by_step.pop(0)
 
-		self.blueBar(indexFN,indexSN)
+		self.blue_bar(indexFN, indexSN)
 
-		self.actualTime = time.time()
-		self.timeToSort = round(self.actualTime - self.startTime,2)
-		self.menubar.entryconfig(3, label="Time to sort "+str(self.timeToSort)+" s")
+		self.actual_time = time.time()
+		self.time_to_sort = round(self.actual_time - self.start_time, 2)
+		self.menubar.entryconfig(3 ,  label="Time to sort "+str(self.time_to_sort)+" s")
 		time.sleep(0.01)
-		if(len(self.arrayStepByStep)>0 and not(self.resetSort)):
-			self.frame.after(self.animationSpeed,self.dynamicDisplay)
+		if(len(self.list_step_by_step)>0 and not(self.reset_sort)):
+			self.root.after(self.animation_speed, self.dynamic_display)
 		else:
-			self.resetSort = False
-			self.menubar.entryconfig(2,state='normal')
+			self.reset_sort = False
+			self.menubar.entryconfig(2, state='normal')
 	
-	#Function that swap two bar on the canvas
-	def swapBar(self,indexFN,indexSN):
-		firstBar = self.barArray[indexFN]
-		secondBar = self.barArray[indexSN]
+	def swap_bars(self, indexFN:int, indexSN:int):
+		"""Method which swap two of the different bar on the canvas"""
+		firstBar = self.bar_list[indexFN]
+		secondBar = self.bar_list[indexSN]
 		
 
-		arrayXYCurrent = self.canvas.coords(firstBar)
-		x0Current = arrayXYCurrent[0]
-		y0Current = arrayXYCurrent[1]
-		y1Current = arrayXYCurrent[3]
+		arrayXY_current = self.canvas.coords(firstBar)
+		x0_current = arrayXY_current[0]
+		y0_current = arrayXY_current[1]
+		y1_current = arrayXY_current[3]
 
 
-		arrayXYDestination = self.canvas.coords(secondBar)
-		x0Destination = arrayXYDestination[0]
-		y0Destination = arrayXYDestination[1]
-		y1Destination = arrayXYDestination[3]
+		arrayXY_destination = self.canvas.coords(secondBar)
+		x0_destination = arrayXY_destination[0]
+		y0_destination = arrayXY_destination[1]
+		y1_destination = arrayXY_destination[3]
 
-		self.canvas.coords(firstBar,x0Destination,y0Destination,x0Destination,y1Current)
-		self.canvas.coords(secondBar,x0Current,y0Current,x0Current,y1Destination)
+		self.canvas.coords(firstBar, x0_destination, y0_destination, x0_destination, y1_current)
+		self.canvas.coords(secondBar, x0_current, y0_current, x0_current, y1_destination)
 
-		self.barArray[indexFN],self.barArray[indexSN] = self.barArray[indexSN],self.barArray[indexFN]
+		self.bar_list[indexFN],self.bar_list[indexSN] = self.bar_list[indexSN],self.bar_list[indexFN]
 
-	def blueBar(self,indexFN,indexSN):
-		#If the number doesn't appear in the permutation array that means it is currently well placed  it becomes blue
+	def blue_bar(self, indexFN:int, indexSN:int):
+		"""If the number doesn't appear in the permutation array that means it is _currently well placed  it becomes blue"""
 		firstWellSorted = True
-		for i in range (0,len(self.arrayStepByStep)):
-			if self.arrayStepByStep[i].startswith(str(indexFN)+'→') or self.arrayStepByStep[i].endswith('→'+str(indexFN)) :
+		for i in range (0, len(self.list_step_by_step)):
+			if self.list_step_by_step[i].startswith(str(indexFN)+'→') or self.list_step_by_step[i].endswith('→'+str(indexFN)) :
 				firstWellSorted = False
 
 		if firstWellSorted:
-			self.canvas.itemconfig(self.barArray[indexFN],fill="blue")
+			self.canvas.itemconfig(self.bar_list[indexFN] , fill="blue")
 
 		secondWellSorted = True
-		for s in range (0,len(self.arrayStepByStep)):
-			if self.arrayStepByStep[s].startswith(str(indexSN)+'→') or self.arrayStepByStep[s].endswith('→'+str(indexSN)) :
+		for s in range (0, len(self.list_step_by_step)):
+			if self.list_step_by_step[s].startswith(str(indexSN)+'→') or self.list_step_by_step[s].endswith('→'+str(indexSN)) :
 				secondWellSorted = False
 
 		if secondWellSorted:
-			self.canvas.itemconfig(self.barArray[indexSN],fill="blue")
+			self.canvas.itemconfig(self.bar_list[indexSN], fill="blue")
 
-if __name__ == '__main__':
+if __name__ == "__main__":
 	myApp = App()
 	myApp.start()

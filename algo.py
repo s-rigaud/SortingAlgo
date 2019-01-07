@@ -2,82 +2,82 @@ import time
 import random
 from functions import *
 
-def bubbleSort(nList):
-	arrayStepByStep = []
+def bubble_sort(nList):
+	array_step_by_step = []
 	for num in range(len(nList)-1,0,-1):
 		for i in range(num):
 			if nList[i]>nList[i+1]:
 				nList[i],nList[i+1] = nList[i+1],nList[i]
-				arrayStepByStep.append(str(i)+"→"+str(i+1))
-	return arrayStepByStep
+				array_step_by_step.append(str(i)+"→"+str(i+1))
+	return array_step_by_step
 
 
-def optimisedBubbleSort(nList):
-	arrayStepByStep = []
+def optimised_bubble_bort(nList):
+	array_step_by_step = []
 	for num in range(len(nList)-1,0,-1):
 		ordered = True
 		for i in range(num):
 			if nList[i]>nList[i+1]:
 				nList[i],nList[i+1] = nList[i+1],nList[i]
 				ordered = False
-				arrayStepByStep.append(str(i)+"→"+str(i+1))
+				array_step_by_step.append(str(i)+"→"+str(i+1))
 		if ordered :
 			break
-	return arrayStepByStep
+	return array_step_by_step
 
 
-def cocktailSort(nList):
-	arrayStepByStep = []
+def cocktail_sort(nList):
+	array_step_by_step = []
 	for k in range(len(nList)-1, 0, -1):
 		swapped = False
 		for i in range(k, 0, -1):
 			if nList[i]<nList[i-1]:
 				nList[i], nList[i-1] = nList[i-1], nList[i]
-				arrayStepByStep.append(str(i)+"→"+str(i-1))
+				array_step_by_step.append(str(i)+"→"+str(i-1))
 				swapped = True
 		for i in range(k):
 			if nList[i] > nList[i+1]:
 				nList[i], nList[i+1] = nList[i+1], nList[i]
-				arrayStepByStep.append(str(i)+"→"+str(i+1))
+				array_step_by_step.append(str(i)+"→"+str(i+1))
 				swapped = True
 		if not swapped:
-			return arrayStepByStep
+			return array_step_by_step
 	
 
-def selectionSort(nList):
-	arrayStepByStep = []
+def selection_sort(nList):
+	array_step_by_step = []
 	for i in range(len(nList)-1,0,-1):
 		indexMax=0
 		for location in range(1,i+1):
 			if nList[location]>nList[indexMax]:
 				indexMax = location
 		nList[i],nList[indexMax] = nList[indexMax],nList[i]
-		arrayStepByStep.append(str(i)+"→"+str(indexMax))
-	return arrayStepByStep
+		array_step_by_step.append(str(i)+"→"+str(indexMax))
+	return array_step_by_step
 
 
-def insertionSort(nList):
-	arrayStepByStep = []
+def insertion_sort(nList):
+	array_step_by_step = []
 	for i in range(1,len(nList)):
 		currentvalue = nList[i]
 		position = i
 		while position>0 and nList[position-1]>currentvalue:
 			nList[position]=nList[position-1]
-			arrayStepByStep.append(str(position)+"→"+str(position-1))
+			array_step_by_step.append(str(position)+"→"+str(position-1))
 			position = position-1
 		nList[position]=currentvalue
 		
-	return arrayStepByStep
+	return array_step_by_step
 
 
-def mergeSort(nList):
+def merge_sort(nList):
 	pass
 
-def radixSort(nList):
+def radix_sort(nList):
 	pass
 
-def bucketSort(nList):
-	arrayStepByStep = []
+def bucket_sort(nList):
+	array_step_by_step = []
 	# creating around (x<=10) buckets each time
 	# seems better for visualisation
 	bucketSize = 10**(len(str(max(nList)))-1)
@@ -86,10 +86,10 @@ def bucketSort(nList):
 	for i in range(len(nList)):
 		bucketVoulu = buckets[int(nList[i]//bucketSize)]
 		bucketVoulu.append(nList[i])
-		
+
 	bigBucket = []
 	for bucket in buckets:
-		bigBucket+=bucket
+		bigBucket += [number for number in bucket]
 
 	######################################################################""
 	#Begin to end Visualisation
@@ -98,7 +98,7 @@ def bucketSort(nList):
 	for num in bigBucketCopy:
 		idxNList = nList.index(num)
 		idxBB = bigBucket.index(num)
-		arrayStepByStep.append(str(idxNList)+'→'+str(idxBB))
+		array_step_by_step.append(str(idxNList)+'→'+str(idxBB))
 		nList[idxNList]=0
 		bigBucket[idxBB]=0
 		nList[idxBB],nList[idxNList] = nList[idxNList],nList[idxBB]
@@ -107,7 +107,7 @@ def bucketSort(nList):
 	res = []
 	cpt = 0
 	for bucket in buckets:
-		insertionSort(bucket)
+		insertion_sort(bucket)
 		res+=bucket
 	######################################################################""
 	#Begin to end Visualisation
@@ -118,18 +118,24 @@ def bucketSort(nList):
 	for num in bigBucketCopyCopy:
 		idxBB = bigBucketCopy.index(num)
 		idxRes = res.index(num)
-		arrayStepByStep.append(str(idxBB)+'→'+str(idxRes))
+		array_step_by_step.append(str(idxBB)+'→'+str(idxRes))
 		bigBucketCopy[idxBB]=0
 		res[idxRes]=0
 		bigBucketCopy[idxRes],bigBucketCopy[idxBB] = bigBucketCopy[idxBB],bigBucketCopy[idxRes]
 	###############################################################################""
 
-	fillArrayWithArray(nList,resCopy)
-	return arrayStepByStep
+	print(nList)
+	print(resCopy)
+
+	nList = resCopy.copy()
+
+	print(nList)
+	print(resCopy)
+	return array_step_by_step
 
 
-def countingSort(nList):
-	arrayStepByStep = []
+def counting_sort(nList):
+	array_step_by_step = []
 	count = [0 for _ in range(max(nList)+1)]
 	res = []
 
@@ -137,8 +143,7 @@ def countingSort(nList):
 		count[num]+=1
 
 	for i in range(len(count)):
-		for j in range(count[i]):
-			res.append(i)
+		res+= [i for j in range(count[i])]
 	######################################################################""
 	#Begin to end Visualisation
 	resCopy = res.copy()
@@ -146,33 +151,39 @@ def countingSort(nList):
 	for num in nListCopy:
 		idxNList = nList.index(num)
 		idxRes = res.index(num)
-		arrayStepByStep.append(str(idxNList)+'→'+str(idxRes))
+		array_step_by_step.append(str(idxNList)+'→'+str(idxRes))
 		nList[idxNList]=0
 		res[idxRes]=0
 		nList[idxRes],nList[idxNList] = nList[idxNList],nList[idxRes]
 	###############################################################################""
 
-	fillArrayWithArray(nList,resCopy)
-	return arrayStepByStep
+	print(nList)
+	print(resCopy)
+
+	nList = resCopy.copy()
+
+	print(nList)
+	print(resCopy)
+	return array_step_by_step
 
 
-def smoothSort(nList):
+def smooth_sort(nList):
 	pass
 
 
-def heapSort(nList):
+def heap_sort(nList):
 	pass
 
-def quickSort(nList):
+def quick_sort(nList):
 	pass
 
-def bogoSort(nList):
-	arrayStepByStep = []
+def bogo_sort(nList):
+	array_step_by_step = []
 	size = len(nList)
 	orderedList = sorted(nList.copy())
 	while(not(areEqual(nList,orderedList))):
 		randomNum0 = random.randint(0,size-1)
 		randomNum1 = random.randint(0,size-1)
 		nList[randomNum0],nList[randomNum1] = nList[randomNum1],nList[randomNum0]
-		arrayStepByStep.append(str(randomNum0)+"→"+str(randomNum1))
-	return arrayStepByStep
+		array_step_by_step.append(str(randomNum0)+"→"+str(randomNum1))
+	return array_step_by_step
