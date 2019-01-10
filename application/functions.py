@@ -6,6 +6,3 @@ def areEqual(arr1, arr2):
 			return False
 	return True 
 
-def initialize_list():
-	return [random.randint(4,10000) for _ in range(55)]
-

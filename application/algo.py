@@ -1,5 +1,4 @@
-import time
-import random
+import time, random
 from functions import *
 
 def bubble_sort(nList):
@@ -8,7 +7,7 @@ def bubble_sort(nList):
 		for i in range(num):
 			if nList[i]>nList[i+1]:
 				nList[i],nList[i+1] = nList[i+1],nList[i]
-				array_step_by_step.append(str(i)+"→"+str(i+1))
+				array_step_by_step.append(str(i)+"-"+str(i+1))
 	return array_step_by_step
 
 
@@ -20,7 +19,7 @@ def optimised_bubble_bort(nList):
 			if nList[i]>nList[i+1]:
 				nList[i],nList[i+1] = nList[i+1],nList[i]
 				ordered = False
-				array_step_by_step.append(str(i)+"→"+str(i+1))
+				array_step_by_step.append(str(i)+"-"+str(i+1))
 		if ordered :
 			break
 	return array_step_by_step
@@ -33,12 +32,12 @@ def cocktail_sort(nList):
 		for i in range(k, 0, -1):
 			if nList[i]<nList[i-1]:
 				nList[i], nList[i-1] = nList[i-1], nList[i]
-				array_step_by_step.append(str(i)+"→"+str(i-1))
+				array_step_by_step.append(str(i)+"-"+str(i-1))
 				swapped = True
 		for i in range(k):
 			if nList[i] > nList[i+1]:
 				nList[i], nList[i+1] = nList[i+1], nList[i]
-				array_step_by_step.append(str(i)+"→"+str(i+1))
+				array_step_by_step.append(str(i)+"-"+str(i+1))
 				swapped = True
 		if not swapped:
 			return array_step_by_step
@@ -52,7 +51,7 @@ def selection_sort(nList):
 			if nList[location]>nList[indexMax]:
 				indexMax = location
 		nList[i],nList[indexMax] = nList[indexMax],nList[i]
-		array_step_by_step.append(str(i)+"→"+str(indexMax))
+		array_step_by_step.append(str(i)+"-"+str(indexMax))
 	return array_step_by_step
 
 
@@ -63,7 +62,7 @@ def insertion_sort(nList):
 		position = i
 		while position>0 and nList[position-1]>currentvalue:
 			nList[position]=nList[position-1]
-			array_step_by_step.append(str(position)+"→"+str(position-1))
+			array_step_by_step.append(str(position)+"-"+str(position-1))
 			position = position-1
 		nList[position]=currentvalue
 		
@@ -98,7 +97,7 @@ def bucket_sort(nList):
 	for num in bigBucketCopy:
 		idxNList = nList.index(num)
 		idxBB = bigBucket.index(num)
-		array_step_by_step.append(str(idxNList)+'→'+str(idxBB))
+		array_step_by_step.append(str(idxNList)+'-'+str(idxBB))
 		nList[idxNList]=0
 		bigBucket[idxBB]=0
 		nList[idxBB],nList[idxNList] = nList[idxNList],nList[idxBB]
@@ -118,7 +117,7 @@ def bucket_sort(nList):
 	for num in bigBucketCopyCopy:
 		idxBB = bigBucketCopy.index(num)
 		idxRes = res.index(num)
-		array_step_by_step.append(str(idxBB)+'→'+str(idxRes))
+		array_step_by_step.append(str(idxBB)+'-'+str(idxRes))
 		bigBucketCopy[idxBB]=0
 		res[idxRes]=0
 		bigBucketCopy[idxRes],bigBucketCopy[idxBB] = bigBucketCopy[idxBB],bigBucketCopy[idxRes]
@@ -151,7 +150,7 @@ def counting_sort(nList):
 	for num in nListCopy:
 		idxNList = nList.index(num)
 		idxRes = res.index(num)
-		array_step_by_step.append(str(idxNList)+'→'+str(idxRes))
+		array_step_by_step.append(str(idxNList)+'-'+str(idxRes))
 		nList[idxNList]=0
 		res[idxRes]=0
 		nList[idxRes],nList[idxNList] = nList[idxNList],nList[idxRes]
@@ -185,5 +184,5 @@ def bogo_sort(nList):
 		randomNum0 = random.randint(0,size-1)
 		randomNum1 = random.randint(0,size-1)
 		nList[randomNum0],nList[randomNum1] = nList[randomNum1],nList[randomNum0]
-		array_step_by_step.append(str(randomNum0)+"→"+str(randomNum1))
+		array_step_by_step.append(str(randomNum0)+"-"+str(randomNum1))
 	return array_step_by_step
