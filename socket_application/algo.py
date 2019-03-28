@@ -180,7 +180,7 @@ def bogo_sort(nList):
 	array_step_by_step = []
 	size = len(nList)
 	orderedList = sorted(nList.copy())
-	while(not(areEqual(nList,orderedList))):
+	while not areEqual(nList,orderedList) :
 		randomNum0 = random.randint(0,size-1)
 		randomNum1 = random.randint(0,size-1)
 		nList[randomNum0],nList[randomNum1] = nList[randomNum1],nList[randomNum0]
