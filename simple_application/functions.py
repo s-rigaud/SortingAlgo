@@ -1,10 +1,10 @@
-import random
+""" Single test between two arrays """
 
-def are_equals(arr1, arr2):
-	if len(arr1) != len(arr2):
-		return False
-	for i in range(0, len(arr1)):
-		if arr1[i] != arr2[i]:
-			return False
-	return True
-
+def are_equals(arr1: list, arr2: list):
+    """ Test if two array are equals"""
+    if len(arr1) != len(arr2):
+        return False
+    for num1, num2 in zip(arr1, arr2):
+        if num1 != num2:
+            return False
+    return True
